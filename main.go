@@ -14,6 +14,7 @@ import (
 	"./models"
 )
 
+//Openfile 按行读取cookie.txt内容，返还字符串数组
 func Openfile() (cookie []string) {
 	fi, err := os.Open("cookie.txt") //读取文件夹里的cookie.txt
 	if err != nil {
@@ -30,16 +31,22 @@ func Openfile() (cookie []string) {
 	}
 	return
 }
+
+// StringSplitn 处理字符串末尾的换行
 func StringSplitn(s1, s2 string) []string {
 	r1 := strings.SplitAfterN(s1, s2, 10)
 	r1[1] = strings.Replace(r1[1], "\r", "", -1)
 	r1[1] = strings.Replace(r1[1], "\n", "", -1)
 	return r1
 }
+
 func main() {
 	txtbody := Openfile()
 	t := len(txtbody)
 	for i := 0; i < t; i++ {
+		if txtbody[i] == "" {
+			continue
+		}
 		CookieBool := StringSplitn(txtbody[i], `"=`)
 		if CookieBool[1] == "" {
 			continue
